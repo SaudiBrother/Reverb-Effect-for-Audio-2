@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DAW FX Rack - Remastered</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <div id="overlay-layer" class="overlay-layer">
+        <div class="overlay-content">
+            <div class="loader-spinner"></div>
+            <h2 id="overlay-text">Processing...</h2>
+        </div>
+    </div>
+
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-wave-square brand-icon"></i>
+                <div class="brand-text">
+                    <h1>FX RACK</h1>
+                    <small>Web Audio Processor</small>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="label-text">Theme</label>
+                <select id="theme-selector" class="select-input">
+                    <option value="theme-dark">⚫ Obsidian (Dark)</option>
+                    <option value="theme-light">⚪ Porcelain (Light)</option>
+                    <option value="theme-neon">🟣 Cyberpunk</option>
+                    <option value="theme-ocean">🌊 Deep Ocean</option>
+                    <option value="theme-forest">🌲 Evergreen</option>
+                    <option value="theme-sunset">🌅 Sunset Drive</option>
+                    <option value="theme-royal">👑 Royal Purple</option>
+                    <option value="theme-cherry">🍒 Red Velvet</option>
+                    <option value="theme-coffee">☕ Espresso</option>
+                    <option value="theme-slate">🌫️ Slate Grey</option>
+                </select>
+            </div>
+
+            <div class="control-group actions">
+                <button id="upload-trigger-btn" class="btn btn-primary hover-anim">
+                    <i class="fa-solid fa-folder-open"></i> Load Audio
+                </button>
+                <input type="file" id="file-input" accept="audio/*" hidden>
+
+                <button id="download-btn" class="btn btn-outline hover-anim" disabled>
+                    <i class="fa-solid fa-file-export"></i> Export WAV
+                </button>
+            </div>
+
+            <div class="master-section">
+                <div class="master-header">
+                    <span>MASTER OUT</span>
+                    <span id="master-db-readout">-∞ dB</span>
+                </div>
+                <div class="meter-wrapper">
+                    <div class="meter-bar" id="master-meter-bar"></div>
+                    <div class="peak-line" id="master-peak-indicator"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="workspace">
+            
+            <section class="visualizer-area">
+                <div class="card playback-card">
+                    <div class="playback-header">
+                        <div class="playback-info">
+                            <h2 id="file-name">No File Loaded</h2>
+                            <div class="time-wrapper">
+                                <span id="current-time">0:00</span> / <span id="total-duration">0:00</span>
+                            </div>
+                        </div>
+                        <div class="viz-selector-wrapper">
+                            <label><i class="fa-solid fa-eye"></i> Mode:</label>
+                            <select id="viz-type-selector" class="mini-select">
+                                <option value="bars">Digital Bars</option>
+                                <option value="wave">Liquid Wave</option>
+                                <option value="circular">Radial Pulse</option>
+                                <option value="mirror">Rorschach Mirror</option>
+                                <option value="nebula">Nebula Particles</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="waveform-wrapper">
+                        <div class="waveform-container" id="waveform-container">
+                            <canvas id="main-visualizer"></canvas>
+                            <div id="playhead"></div>
+                        </div>
+                    </div>
+
+                    <div class="transport-controls">
+                        <button id="play-pause-btn" class="btn-circle big hover-scale" disabled>
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="rack-area">
+                <div class="rack-header">
+                    <h3>Effects Chain</h3>
+                    <button id="global-reset-btn" class="btn-text">Reset All</button>
+                </div>
+                
+                <div id="fx-chain-container" class="fx-grid"></div>
+                
+                <div id="empty-chain-msg">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Initializing Rack...
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <template id="fx-module-template">
+        <div class="card fx-card" draggable="true">
+            <div class="fx-header">
+                <div class="fx-icon-box"><i class="module-icon"></i></div>
+                <span class="fx-name">Effect</span>
+                <div class="fx-tools">
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="bypass-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <button class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></button>
+                </div>
+            </div>
+            <div class="fx-body"></div>
+        </div>
+    </template>
+
+</body>
+</html>
