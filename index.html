@@ -33,41 +33,43 @@
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="label-text">Theme</label>
-                <select id="theme-selector" class="select-input">
-                    <option value="theme-dark">⚫ Obsidian (Dark)</option>
-                    <option value="theme-light">⚪ Porcelain (Light)</option>
-                    <option value="theme-neon">🟣 Cyberpunk</option>
-                    <option value="theme-ocean">🌊 Deep Ocean</option>
-                    <option value="theme-forest">🌲 Evergreen</option>
-                    <option value="theme-sunset">🌅 Sunset Drive</option>
-                    <option value="theme-royal">👑 Royal Purple</option>
-                    <option value="theme-cherry">🍒 Red Velvet</option>
-                    <option value="theme-coffee">☕ Espresso</option>
-                    <option value="theme-slate">🌫️ Slate Grey</option>
-                </select>
-            </div>
-
-            <div class="control-group actions">
-                <button id="upload-trigger-btn" class="btn btn-primary hover-anim">
-                    <i class="fa-solid fa-folder-open"></i> Load Audio
-                </button>
-                <input type="file" id="file-input" accept="audio/*" hidden>
-
-                <button id="download-btn" class="btn btn-outline hover-anim" disabled>
-                    <i class="fa-solid fa-file-export"></i> Export WAV
-                </button>
-            </div>
-
-            <div class="master-section">
-                <div class="master-header">
-                    <span>MASTER OUT</span>
-                    <span id="master-db-readout">-∞ dB</span>
+            <div class="sidebar-content">
+                <div class="control-group">
+                    <label class="label-text">Theme</label>
+                    <select id="theme-selector" class="select-input">
+                        <option value="theme-dark">⚫ Obsidian (Dark)</option>
+                        <option value="theme-light">⚪ Porcelain (Light)</option>
+                        <option value="theme-neon">🟣 Cyberpunk</option>
+                        <option value="theme-ocean">🌊 Deep Ocean</option>
+                        <option value="theme-forest">🌲 Evergreen</option>
+                        <option value="theme-sunset">🌅 Sunset Drive</option>
+                        <option value="theme-royal">👑 Royal Purple</option>
+                        <option value="theme-cherry">🍒 Red Velvet</option>
+                        <option value="theme-coffee">☕ Espresso</option>
+                        <option value="theme-slate">🌫️ Slate Grey</option>
+                    </select>
                 </div>
-                <div class="meter-wrapper">
-                    <div class="meter-bar" id="master-meter-bar"></div>
-                    <div class="peak-line" id="master-peak-indicator"></div>
+
+                <div class="control-group actions">
+                    <button id="upload-trigger-btn" class="btn btn-primary hover-anim">
+                        <i class="fa-solid fa-folder-open"></i> Load Audio
+                    </button>
+                    <input type="file" id="file-input" accept="audio/*" hidden>
+
+                    <button id="download-btn" class="btn btn-outline hover-anim" disabled>
+                        <i class="fa-solid fa-file-export"></i> Export WAV
+                    </button>
+                </div>
+
+                <div class="master-section">
+                    <div class="master-header">
+                        <span>MASTER OUT</span>
+                        <span id="master-db-readout">-∞ dB</span>
+                    </div>
+                    <div class="meter-wrapper">
+                        <div class="meter-bar" id="master-meter-bar"></div>
+                        <div class="peak-line" id="master-peak-indicator"></div>
+                    </div>
                 </div>
             </div>
         </aside>
