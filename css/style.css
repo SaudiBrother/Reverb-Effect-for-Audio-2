@@ -2,12 +2,12 @@
 :root {
     --font-main: 'Outfit', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
-    --radius: 16px; /* Lebih rounded untuk kesan modern */
+    --radius: 16px;
     --radius-sm: 8px;
-    --transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth Easing */
+    --transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* THEME DEFINITIONS (10 Variations) */
+/* THEME DEFINITIONS */
 html.theme-dark { --bg-app: #0f1115; --bg-sidebar: #161b22; --bg-card: #1e232b; --bg-input: #121418; --border: #2f3640; --text-main: #e6edf3; --text-muted: #8b949e; --accent: #58a6ff; --accent-glow: rgba(88, 166, 255, 0.3); --danger: #f85149; --success: #3fb950; --warning: #d29922; }
 html.theme-light { --bg-app: #f6f8fa; --bg-sidebar: #ffffff; --bg-card: #ffffff; --bg-input: #eaeef2; --border: #d0d7de; --text-main: #24292f; --text-muted: #57606a; --accent: #0969da; --accent-glow: rgba(9, 105, 218, 0.2); --danger: #cf222e; --success: #1a7f37; --warning: #9a6700; }
 html.theme-neon { --bg-app: #050505; --bg-sidebar: #0a0a0a; --bg-card: #111; --bg-input: #000; --border: #333; --text-main: #fff; --text-muted: #888; --accent: #d600ff; --accent-glow: rgba(214, 0, 255, 0.6); --danger: #ff0055; --success: #00ff9d; --warning: #ffe600; }
@@ -21,25 +21,33 @@ html.theme-slate { --bg-app: #30353b; --bg-sidebar: #3a4047; --bg-card: #454c54;
 
 /* --- 2. GLOBAL RESET & LAYOUT --- */
 * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+
 body {
-    font-family: var(--font-main); background: var(--bg-app); color: var(--text-main);
-    height: 100vh; overflow: hidden; font-size: 14px;
+    font-family: var(--font-main); 
+    background: var(--bg-app); 
+    color: var(--text-main);
+    font-size: 14px;
+    /* FIX: Hapus height 100vh dan overflow hidden untuk Mobile */
+    min-height: 100vh;
+    overflow-x: hidden; /* Mencegah scroll ke samping */
     transition: background 0.5s ease, color 0.5s ease;
 }
 
-.app-layout { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
+/* Desktop Grid Layout */
+.app-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    width: 100%;
+}
 
-/* --- 3. INTERACTION ANIMATIONS (Ripples & Hover) --- */
-/* Ripple Effect */
+/* --- 3. INTERACTION ANIMATIONS --- */
 .ripple {
     position: absolute; border-radius: 50%; transform: scale(0);
     animation: ripple-anim 0.6s linear; background: rgba(255, 255, 255, 0.3); pointer-events: none;
 }
-@keyframes ripple-anim {
-    to { transform: scale(4); opacity: 0; }
-}
+@keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
-/* Hover Animations */
 .hover-anim { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.2s; }
 .hover-anim:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 .hover-anim:active:not(:disabled) { transform: translateY(1px); }
@@ -48,7 +56,7 @@ body {
 .hover-scale:hover:not(:disabled) { transform: scale(1.05); }
 .hover-scale:active:not(:disabled) { transform: scale(0.95); }
 
-/* Overlay Animation (Import/Export) */
+/* Overlay */
 .overlay-layer {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
@@ -69,15 +77,28 @@ body {
 
 /* --- 4. SIDEBAR --- */
 .sidebar {
-    background: var(--bg-sidebar); border-right: 1px solid var(--border);
-    padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10;
+    background: var(--bg-sidebar); 
+    border-right: 1px solid var(--border);
+    padding: 2rem 1.5rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.8rem; 
+    z-index: 10;
     box-shadow: 5px 0 20px rgba(0,0,0,0.02);
+    /* Desktop Fixed Sidebar Behavior */
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
 }
-.brand { display: flex; align-items: center; gap: 12px; }
+
+.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .brand-icon { font-size: 2rem; color: var(--accent); filter: drop-shadow(0 0 8px var(--accent-glow)); animation: pulse-glow 3s infinite alternate; }
 @keyframes pulse-glow { from { filter: drop-shadow(0 0 5px var(--accent-glow)); } to { filter: drop-shadow(0 0 15px var(--accent-glow)); } }
 .brand-text h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
 .brand-text small { font-size: 0.8rem; color: var(--text-muted); }
+
+.sidebar-content { display: flex; flex-direction: column; gap: 1.8rem; height: 100%; }
 
 .control-group { display: flex; flex-direction: column; gap: 10px; }
 .label-text { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -99,7 +120,13 @@ body {
 .meter-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--success), var(--danger)); transition: width 0.1s linear; box-shadow: 0 0 10px var(--accent-glow); }
 
 /* --- 5. WORKSPACE --- */
-.workspace { overflow-y: auto; padding: 2rem; display: flex; flex-direction: column; gap: 2rem; scroll-behavior: smooth; }
+.workspace { 
+    padding: 2rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2rem; 
+    /* FIX: Biarkan workspace scroll normal bersama body di mobile */
+}
 
 /* Cards */
 .card {
@@ -111,7 +138,7 @@ body {
 .card:hover { border-color: var(--accent-glow); }
 
 /* Visualizer Area */
-.visualizer-area { display: flex; flex-direction: column; gap: 1rem; }
+.visualizer-area { width: 100%; }
 .playback-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
 .playback-info h2 { font-size: 1.2rem; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
 .time-wrapper { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); }
@@ -120,7 +147,7 @@ body {
 .mini-select { padding: 4px 8px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
 
 .waveform-wrapper { 
-    height: 250px; /* Tinggi lebih besar untuk visualizer */
+    height: 250px; 
     background: var(--bg-input); border-radius: var(--radius); 
     position: relative; overflow: hidden; border: 1px solid var(--border); 
     box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
@@ -137,7 +164,12 @@ canvas#main-visualizer { width: 100%; height: 100%; display: block; }
 .btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; transition: color 0.2s; }
 .btn-text:hover { color: var(--accent); text-decoration: underline; }
 
-.fx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+/* FIX: Responsive Grid for FX Cards */
+.fx-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+    gap: 1.5rem; 
+}
 
 .fx-card { padding: 0; overflow: hidden; position: relative; border-left: 4px solid transparent; transition: transform 0.2s, box-shadow 0.2s; }
 .fx-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
@@ -163,9 +195,9 @@ canvas#main-visualizer { width: 100%; height: 100%; display: block; }
 .slider-group.vertical { height: 120px; justify-content: flex-end; }
 .slider-group.horizontal { width: 100%; }
 
-input[type=range] { -webkit-appearance: none; background: transparent; cursor: pointer; }
+input[type=range] { -webkit-appearance: none; background: transparent; cursor: pointer; width: 100%; }
 .slider-group.vertical input[type=range] { writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 6px; height: 100px; accent-color: var(--accent); }
-.slider-group.horizontal input[type=range] { width: 100%; height: 4px; background: var(--bg-input); border-radius: 2px; }
+.slider-group.horizontal input[type=range] { height: 4px; background: var(--bg-input); border-radius: 2px; }
 .slider-group.horizontal input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 14px; width: 14px; background: var(--accent); border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px var(--accent-glow); transition: transform 0.1s; }
 .slider-group.horizontal input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
 
@@ -185,10 +217,64 @@ input:checked + .slider:before { transform: translateX(16px); background-color: 
 .toast { background: var(--bg-card); border-left: 4px solid var(--accent); padding: 15px 25px; border-radius: var(--radius-sm); box-shadow: 0 10px 40px rgba(0,0,0,0.2); color: var(--text-main); font-size: 0.95rem; font-weight: 500; animation: slideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; align-items: center; gap: 10px; }
 @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-/* Mobile */
-@media (max-width: 768px) {
-    .app-layout { grid-template-columns: 1fr; display: block; }
-    .sidebar { flex-direction: row; flex-wrap: wrap; align-items: center; padding: 1rem; gap: 1rem; border-right: none; border-bottom: 1px solid var(--border); }
-    .workspace { padding: 1rem; }
-    .fx-grid { grid-template-columns: 1fr; }
+/* --- 7. MOBILE & TABLET OPTIMIZATION --- */
+@media (max-width: 1024px) {
+    body {
+        height: auto; /* Biarkan body memanjang sesuai konten */
+        overflow-y: auto; /* Izinkan scroll vertikal */
+    }
+    
+    .app-layout {
+        grid-template-columns: 1fr; /* Ubah ke layout 1 kolom (Stack) */
+        display: block;
+        height: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto; /* Sidebar tidak full height, tapi mengikuti isi */
+        position: relative; /* Tidak lengket (sticky) di HP biar tidak menutupi layar */
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    
+    .sidebar-content {
+        /* Ubah isi sidebar jadi grid 2 kolom di tablet/HP agar hemat tempat */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    /* Jika layar sangat kecil (HP Potrait), kembalikan sidebar jadi tumpuk ke bawah */
+    @media (max-width: 600px) {
+        .sidebar-content { grid-template-columns: 1fr; }
+        .brand { justify-content: center; margin-bottom: 10px; }
+        .brand-text { text-align: center; }
+    }
+
+    .master-section {
+        margin-top: 0;
+        grid-column: 1 / -1; /* Master section mengambil lebar penuh */
+    }
+
+    .workspace {
+        padding: 1.5rem;
+        height: auto;
+        overflow: visible; /* Biarkan konten muncul semua */
+    }
+    
+    .fx-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* Kartu FX jadi full width di HP kecil */
+    }
+    
+    .fx-body {
+        flex-wrap: wrap; /* Agar slider tidak berdesakan */
+        justify-content: center;
+    }
+    
+    .slider-group {
+        min-width: 60px;
+    }
 }
