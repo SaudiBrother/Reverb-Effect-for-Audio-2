@@ -3,72 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DAW FX Rack - Remastered</title>
+    <title>DAW FX Rack - Ultimate Studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <link rel="stylesheet" href="css/style.css">
-    
     <script src="js/script.js" defer></script>
 </head>
 <body>
 
     <div id="overlay-layer" class="overlay-layer">
         <div class="overlay-content">
-            <div class="loader-spinner"></div>
-            <h2 id="overlay-text">Processing...</h2>
+            <div class="loader-ring"></div>
+            <h2 id="overlay-text">Initializing Studio...</h2>
         </div>
     </div>
 
     <div class="app-layout">
-        <aside class="sidebar">
+        <aside class="sidebar glass-panel">
             <div class="brand">
-                <i class="fa-solid fa-wave-square brand-icon"></i>
+                <div class="brand-icon-wrapper">
+                    <i class="fa-solid fa-wave-square"></i>
+                </div>
                 <div class="brand-text">
                     <h1>FX RACK</h1>
-                    <small>Web Audio Processor</small>
+                    <small>Pro Audio Processor</small>
                 </div>
             </div>
 
-            <div class="sidebar-content">
+            <div class="sidebar-scroll">
                 <div class="control-group">
-                    <label class="label-text">Theme</label>
-                    <select id="theme-selector" class="select-input">
-                        <option value="theme-dark">⚫ Obsidian (Dark)</option>
-                        <option value="theme-light">⚪ Porcelain (Light)</option>
-                        <option value="theme-neon">🟣 Cyberpunk</option>
-                        <option value="theme-ocean">🌊 Deep Ocean</option>
-                        <option value="theme-forest">🌲 Evergreen</option>
-                        <option value="theme-sunset">🌅 Sunset Drive</option>
-                        <option value="theme-royal">👑 Royal Purple</option>
-                        <option value="theme-cherry">🍒 Red Velvet</option>
-                        <option value="theme-coffee">☕ Espresso</option>
-                        <option value="theme-slate">🌫️ Slate Grey</option>
-                    </select>
+                    <label class="label-text"><i class="fa-solid fa-palette"></i> Theme Preset</label>
+                    <div class="select-wrapper">
+                        <select id="theme-selector" class="select-input">
+                            <optgroup label="Standard">
+                                <option value="theme-dark">⚫ Obsidian (Dark)</option>
+                                <option value="theme-light">⚪ Porcelain (Light)</option>
+                                <option value="theme-slate">🌫️ Slate Grey</option>
+                            </optgroup>
+                            <optgroup label="Vibrant">
+                                <option value="theme-neon">🟣 Cyberpunk 2077</option>
+                                <option value="theme-sunset">🌅 Sunset Drive</option>
+                                <option value="theme-ocean">🌊 Deep Ocean</option>
+                                <option value="theme-forest">🌲 Evergreen</option>
+                                <option value="theme-cherry">🍒 Red Velvet</option>
+                                <option value="theme-royal">👑 Royal Purple</option>
+                                <option value="theme-gold">🏆 Gold Rush</option>
+                            </optgroup>
+                            <optgroup label="Soft & Pastel">
+                                <option value="theme-coffee">☕ Espresso</option>
+                                <option value="theme-matcha">🍵 Matcha Latte</option>
+                                <option value="theme-vapor">I I I Vaporwave</option>
+                                <option value="theme-sky">☁️ Sky Blue</option>
+                                <option value="theme-lavender">🌸 Lavender</option>
+                            </optgroup>
+                            <optgroup label="Coding Classics">
+                                <option value="theme-dracula">🧛 Dracula</option>
+                                <option value="theme-monokai">🔥 Monokai</option>
+                                <option value="theme-nord">❄️ Nord</option>
+                                <option value="theme-solarized">☀️ Solarized Dark</option>
+                                <option value="theme-hacker">🟩 Matrix Terminal</option>
+                            </optgroup>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-arrow"></i>
+                    </div>
                 </div>
 
                 <div class="control-group actions">
-                    <button id="upload-trigger-btn" class="btn btn-primary hover-anim">
+                    <button id="upload-trigger-btn" class="btn btn-primary hover-lift">
                         <i class="fa-solid fa-folder-open"></i> Load Audio
                     </button>
                     <input type="file" id="file-input" accept="audio/*" hidden>
 
-                    <button id="download-btn" class="btn btn-outline hover-anim" disabled>
+                    <button id="download-btn" class="btn btn-outline hover-lift" disabled>
                         <i class="fa-solid fa-file-export"></i> Export WAV
                     </button>
                 </div>
 
-                <div class="master-section">
+                <div class="master-section glass-inset">
                     <div class="master-header">
                         <span>MASTER OUT</span>
-                        <span id="master-db-readout">-∞ dB</span>
+                        <span id="master-db-readout" class="mono-text">-∞ dB</span>
                     </div>
-                    <div class="meter-wrapper">
+                    <div class="meter-container">
                         <div class="meter-bar" id="master-meter-bar"></div>
-                        <div class="peak-line" id="master-peak-indicator"></div>
                     </div>
                 </div>
             </div>
@@ -76,28 +97,29 @@
 
         <main class="workspace">
             
-            <section class="visualizer-area">
-                <div class="card playback-card">
+            <section class="visualizer-area fade-in-up">
+                <div class="card playback-card glass-panel">
                     <div class="playback-header">
                         <div class="playback-info">
-                            <h2 id="file-name">No File Loaded</h2>
-                            <div class="time-wrapper">
-                                <span id="current-time">0:00</span> / <span id="total-duration">0:00</span>
+                            <h2 id="file-name">No Audio Loaded</h2>
+                            <div class="time-wrapper mono-text">
+                                <span id="current-time">0:00</span> <span class="divider">/</span> <span id="total-duration">0:00</span>
                             </div>
                         </div>
-                        <div class="viz-selector-wrapper">
-                            <label><i class="fa-solid fa-eye"></i> Mode:</label>
-                            <select id="viz-type-selector" class="mini-select">
-                                <option value="bars">Digital Bars</option>
-                                <option value="wave">Liquid Wave</option>
-                                <option value="circular">Radial Pulse</option>
-                                <option value="mirror">Rorschach Mirror</option>
-                                <option value="nebula">Nebula Particles</option>
-                            </select>
+                        <div class="viz-controls">
+                            <div class="select-wrapper mini">
+                                <select id="viz-type-selector" class="mini-select">
+                                    <option value="bars">Digital Bars</option>
+                                    <option value="wave">Liquid Wave</option>
+                                    <option value="circular">Radial Pulse</option>
+                                    <option value="mirror">Rorschach Mirror</option>
+                                    <option value="nebula">Nebula Particles</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="waveform-wrapper">
+                    <div class="waveform-wrapper glass-inset">
                         <div class="waveform-container" id="waveform-container">
                             <canvas id="main-visualizer"></canvas>
                             <div id="playhead"></div>
@@ -105,23 +127,24 @@
                     </div>
 
                     <div class="transport-controls">
-                        <button id="play-pause-btn" class="btn-circle big hover-scale" disabled>
+                        <button id="play-pause-btn" class="btn-play hover-scale" disabled>
                             <i class="fa-solid fa-play"></i>
                         </button>
                     </div>
                 </div>
             </section>
 
-            <section class="rack-area">
+            <section class="rack-area fade-in-up delay-1">
                 <div class="rack-header">
                     <h3>Effects Chain</h3>
-                    <button id="global-reset-btn" class="btn-text">Reset All</button>
+                    <button id="global-reset-btn" class="btn-link"><i class="fa-solid fa-rotate-left"></i> Reset All</button>
                 </div>
                 
-                <div id="fx-chain-container" class="fx-grid"></div>
+                <div id="fx-chain-container" class="fx-grid">
+                    </div>
                 
-                <div id="empty-chain-msg">
-                    <i class="fa-solid fa-spinner fa-spin"></i> Initializing Rack...
+                <div id="empty-chain-msg" class="glass-panel">
+                    <i class="fa-solid fa-spinner fa-spin-pulse"></i> Initializing Audio Engine...
                 </div>
             </section>
 
@@ -131,10 +154,10 @@
     <div id="toast-container"></div>
 
     <template id="fx-module-template">
-        <div class="card fx-card" draggable="true">
+        <div class="card fx-card glass-panel" draggable="true">
             <div class="fx-header">
                 <div class="fx-icon-box"><i class="module-icon"></i></div>
-                <span class="fx-name">Effect</span>
+                <span class="fx-name">Effect Name</span>
                 <div class="fx-tools">
                     <label class="toggle-switch">
                         <input type="checkbox" class="bypass-toggle" checked>
